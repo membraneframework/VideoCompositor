@@ -1,12 +1,16 @@
 #![cfg(not(target_os = "macos"))]
 mod parser;
+pub(crate) mod vulkan_ctx;
 mod vulkan_decoder;
+mod vulkan_encoder;
+pub(crate) mod wrappers;
 
 use parser::Parser;
 use vulkan_decoder::{FrameSorter, VulkanDecoder};
 
 pub use parser::ParserError;
-pub use vulkan_decoder::{VulkanCtxError, VulkanDecoderError, VulkanDevice, VulkanInstance};
+pub use vulkan_ctx::{VulkanCtxError, VulkanDevice, VulkanInstance};
+pub use vulkan_decoder::VulkanDecoderError;
 
 #[derive(Debug, thiserror::Error)]
 pub enum DecoderError {

@@ -9,7 +9,7 @@ use images::DecodingImages;
 use parameters::VideoSessionParametersManager;
 
 use super::{
-    h264_level_idc_to_max_dpb_mbs, vk_to_h264_level_idc, CommandBuffer, DecodeQueryPool, Fence,
+    h264_level_idc_to_max_dpb_mbs, vk_to_h264_level_idc, CodingQueryPool, CommandBuffer, Fence,
     H264ProfileInfo, SeqParameterSetExt, VideoSession, VulkanDecoderError, VulkanDevice,
 };
 
@@ -23,7 +23,7 @@ pub(super) struct VideoSessionResources<'a> {
     pub(crate) decoding_images: DecodingImages<'a>,
     pub(crate) sps: HashMap<u8, SeqParameterSet>,
     pub(crate) pps: HashMap<(u8, u8), PicParameterSet>,
-    pub(crate) decode_query_pool: Option<DecodeQueryPool>,
+    pub(crate) decode_query_pool: Option<CodingQueryPool>,
     pub(crate) level_idc: u8,
     pub(crate) max_num_reorder_frames: u64,
 }
@@ -106,7 +106,7 @@ impl VideoSessionResources<'_> {
             .h264_decode
             .supports_result_status_queries()
         {
-            Some(DecodeQueryPool::new(
+            Some(CodingQueryPool::new(
                 vulkan_ctx.device.clone(),
                 profile_info.profile_info,
             )?)
