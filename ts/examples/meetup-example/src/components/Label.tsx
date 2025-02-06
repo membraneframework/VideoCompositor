@@ -1,6 +1,7 @@
 import { Text, View } from '@swmansion/smelter';
 import { useEffect, useState } from 'react';
-function Label() {
+
+function Label({ speaker, subject }: { speaker: string; subject: string }) {
   const [labelActive, setLabelActive] = useState(false);
 
   useEffect(() => {
@@ -35,7 +36,7 @@ function Label() {
             fontFamily: 'Noto Sans',
             color: '#FFFFFF',
           }}>
-          KACPER KAPUŚCIAK
+          {speaker.toUpperCase()}
         </Text>
       </View>
       <View style={{ height: 8 }} />
@@ -53,19 +54,9 @@ function Label() {
             fontFamily: 'Noto Sans',
             color: '#FFFFFF',
           }}>
-          What's new in React Native
+          {subject}
         </Text>
       </View>
-      {/* <Text
-        style={{
-          fontSize: 48,
-          fontWeight: 'semi_bold',
-          fontFamily: 'Noto Sans',
-          color: '#FFFFFF',
-          backgroundColor: '#60A5CBCC',
-        }}>
-        What's new in React Native
-      </Text> */}
     </View>
   );
 }

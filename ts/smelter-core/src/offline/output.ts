@@ -201,15 +201,16 @@ class OutputContext implements SmelterOutputContext {
 
     await this.output.api.registerImage(imageRef, {
       url: imageSpec.url,
+      path: imageSpec.path,
       asset_type: imageSpec.assetType,
     });
   }
   public async unregisterImage(imageId: number) {
-    await this.output.api.unregisterImage({
-      type: 'output-specific-image',
-      outputId: this.outputId,
-      id: imageId,
-    });
+    // await this.output.api.unregisterImage({
+    //   type: 'output-specific-image',
+    //   outputId: this.outputId,
+    //   id: imageId,
+    // });
   }
 }
 async function waitForBlockingTasks(offlineContext: OfflineTimeContext): Promise<void> {
