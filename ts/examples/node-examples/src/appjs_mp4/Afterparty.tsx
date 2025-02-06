@@ -1,12 +1,13 @@
 import { View, SlideShow, Slide, Image } from '@swmansion/smelter';
 import { TitleSlide } from './TitleSlide';
+import path from 'path';
 
 const ASSETS = [
-  { source: './assets/afterparty/afterparty1.jpeg' },
-  { source: './assets/afterparty/afterparty2.jpeg' },
-  { source: './assets/afterparty/afterparty3.jpeg' },
-  { source: './assets/afterparty/afterparty4.jpeg' },
-  { source: './assets/afterparty/afterparty5.jpeg' },
+  { source: path.join(__dirname, 'assets/afterparty/afterparty1.jpeg') },
+  { source: path.join(__dirname, 'assets/afterparty/afterparty2.jpeg') },
+  { source: path.join(__dirname, 'assets/afterparty/afterparty3.jpeg') },
+  { source: path.join(__dirname, 'assets/afterparty/afterparty4.jpeg') },
+  { source: path.join(__dirname, 'assets/afterparty/afterparty5.jpeg') },
 ] as const;
 
 export function AfterpartyScene() {

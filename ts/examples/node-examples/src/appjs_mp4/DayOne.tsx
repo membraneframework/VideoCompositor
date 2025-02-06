@@ -1,12 +1,13 @@
 import { View, SlideShow, Slide, Image } from '@swmansion/smelter';
 import { TitleSlide } from './TitleSlide';
+import path from 'path';
 
 const ASSETS = [
-  { source: './assets/dayOne/dayOne1.jpeg' },
-  { source: './assets/dayOne/dayOne2.jpeg' },
-  { source: './assets/dayOne/dayOne3.jpeg' },
-  { source: './assets/dayOne/dayOne4.jpeg' },
-  { source: './assets/dayOne/dayOne5.jpeg' },
+  { source: path.join(__dirname, 'assets/dayOne/dayOne1.jpeg') },
+  { source: path.join(__dirname, 'assets/dayOne/dayOne2.jpeg') },
+  { source: path.join(__dirname, 'assets/dayOne/dayOne3.jpeg') },
+  { source: path.join(__dirname, 'assets/dayOne/dayOne4.jpeg') },
+  { source: path.join(__dirname, 'assets/dayOne/dayOne5.jpeg') },
 ] as const;
 
 export function DayOneScene() {

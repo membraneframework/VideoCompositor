@@ -1,0 +1,21 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+  max-height: 100svh;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 2em;
+}
+
+.examples-tabs {
+  display: flexbox;
+  flex-direction: row;
+}
+
+.examples-tabs button {
+  margin: 5px;
+}
