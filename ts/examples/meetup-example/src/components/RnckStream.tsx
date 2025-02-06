@@ -28,6 +28,7 @@ function RnckStream() {
       </View>
     );
   }
+  
 
   if (inputState === 'finished') {
     return (

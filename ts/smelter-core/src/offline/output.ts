@@ -205,7 +205,7 @@ class OutputContext implements SmelterOutputContext {
       asset_type: imageSpec.assetType,
     });
   }
-  public async unregisterImage(imageId: number) {
+  public async unregisterImage(_imageId: number) {
     // await this.output.api.unregisterImage({
     //   type: 'output-specific-image',
     //   outputId: this.outputId,

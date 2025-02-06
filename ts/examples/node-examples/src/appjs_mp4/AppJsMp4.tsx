@@ -11,7 +11,7 @@ function AppJs() {
   return (
     <SlideShow>
       <Slide durationMs={3000}>
-        <TitleSlide text="Afterparty 1234" />
+        <TitleSlide text="App.js conf 2024" />
       </Slide>
       <Slide>
         <DayOneScene />
@@ -22,15 +22,6 @@ function AppJs() {
       <Slide>
         <AfterpartyScene />
       </Slide>
-      {/* <Slide>
-        <ExampleScene />
-      </Slide>
-      <Slide>
-        <ExampleScene />
-      </Slide> */}
-      {/* <Slide durationMs={3000}>
-        <TitleSlide text="See you on AppJs 2k25" />
-      </Slide> */}
     </SlideShow>
   );
 }
