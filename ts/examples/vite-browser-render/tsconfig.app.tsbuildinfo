@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/examples/counter.tsx","./src/examples/mp4player.tsx","./src/examples/utils.ts","./src/examples/mp4/decoder.ts","./src/examples/mp4/mp4box.d.ts"],"version":"5.6.3"}
