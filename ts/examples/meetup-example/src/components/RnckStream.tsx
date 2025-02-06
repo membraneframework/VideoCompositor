@@ -1,22 +1,45 @@
-import { InputStream, Text, useInputStreams, View } from '@swmansion/smelter';
+import { InputStream, Text, useInputStreams, View, Image } from '@swmansion/smelter';
+import Background from '../../assets/background.png';
+import Label from './Label';
 
 function RnckStream() {
   const inputs = useInputStreams();
-  const inputState = inputs['video']?.videoState;
+  const inputState = inputs['rnck']?.videoState;
 
   if (inputState === 'playing') {
     return (
-      <View style={{ width: 1280, height: 720 }}>
-        <InputStream inputId="video" />
-        <View style={{ width: 230, height: 40, backgroundColor: '#ffffff', bottom: 20, left: 500 }}>
+      <View style={{ width: 1920, height: 1080, padding: 12 }}>
+        <View style={{ width: 1920, height: 1080, top: 0, left: 0 }}>
+          <Image source={new URL(Background, import.meta.url).toString()} />
+        </View>
+        <Label />
+        <View style={{ padding: 12, width: 292 }}>
+          <View style={{ height: 338, width: 292, borderRadius: 16, bottom: 0, left: 0 }}>
+            <InputStream inputId="speaker" />
+          </View>
+        </View>
+        <View style={{ padding: 12 }}>
+          <View style={{ width: 1573, height: 874, top: 0, right: 0, borderRadius: 12 }}>
+            <InputStream inputId="rnck" />
+          </View>
+        </View>
+        <View
+          style={{
+            width: 230,
+            height: 40,
+            bottom: 0,
+            right: 0,
+            paddingVertical: 80,
+            paddingRight: 150,
+          }}>
           <Text
             style={{
-              fontSize: 48,
+              fontSize: 58,
               fontWeight: 'semi_bold',
               fontFamily: 'Noto Sans',
-              color: '#33539d',
+              color: '#ffffff',
             }}>
-            Playing MP4 file
+            RNCK #14
           </Text>
         </View>
       </View>
