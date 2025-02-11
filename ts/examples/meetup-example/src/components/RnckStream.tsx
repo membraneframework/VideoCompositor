@@ -1,4 +1,12 @@
-import { InputStream, Text, useInputStreams, View, Image, Tiles } from '@swmansion/smelter';
+import {
+  InputStream,
+  Text,
+  useInputStreams,
+  View,
+  Image,
+  Tiles,
+  Rescaler,
+} from '@swmansion/smelter';
 import Background from '../../assets/background.png';
 import Label from './Label';
 import EventLabel from './EventLabel';
@@ -14,11 +22,21 @@ function RnckStream() {
           <Image source={new URL(Background, import.meta.url).toString()} />
         </View>
         <Label speaker={'Kacper Kapuściak'} subject={"What's new in React Native"} />
-        <View style={{ padding: 12, width: 292 }}>
-          <View style={{ height: 338, width: 292, borderRadius: 16, bottom: 0, left: 0 }}>
+
+        <View
+          style={{
+            height: 338 + 24,
+            width: 292 + 24,
+            borderRadius: 100,
+            padding: 12,
+            bottom: 0,
+            left: 0,
+          }}>
+          <Rescaler>
             <InputStream inputId="speaker" />
-          </View>
+          </Rescaler>
         </View>
+
         <View style={{ padding: 12 }}>
           <View style={{ width: 1573, height: 874, top: 0, right: 0, borderRadius: 12 }}>
             <InputStream inputId="rnck" />
@@ -28,7 +46,6 @@ function RnckStream() {
       </View>
     );
   }
-  
 
   if (inputState === 'finished') {
     return (

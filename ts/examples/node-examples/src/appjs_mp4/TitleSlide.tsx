@@ -1,14 +1,14 @@
-import { Rescaler, Text } from '@swmansion/smelter';
+import { Text, Rescaler } from '@swmansion/smelter';
 
 export function TitleSlide(props: { text: string }) {
   return (
     <Rescaler>
       <Text
         style={{
-          fontSize: 800,
-          color: '#FF0000',
+          fontSize: 400,
+          color: '#FFFFFF',
           lineHeight: 800,
-          backgroundColor: '#FFFFFF88',
+          backgroundColor: '#10156a',
         }}>
         {props.text}
       </Text>

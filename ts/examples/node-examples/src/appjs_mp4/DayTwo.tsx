@@ -1,6 +1,7 @@
-import { View, SlideShow, Slide, Image } from '@swmansion/smelter';
+import { View, SlideShow, Slide } from '@swmansion/smelter';
 import { TitleSlide } from './TitleSlide';
 import path from 'path';
+import { ImageTile } from './ImageTile';
 
 const ASSETS = [
   { source: path.join(__dirname, 'assets/dayTwo/dayTwo1.jpeg') },
@@ -14,12 +15,12 @@ export function DayTwoScene() {
   return (
     <View>
       <SlideShow>
-        <Slide>
+        <Slide durationMs={3000}>
           <TitleSlide text={'Day two!'} />
         </Slide>
         {ASSETS.map(({ source }) => (
           <Slide key={source} durationMs={3000}>
-            <Image source={source} />
+            <ImageTile source={source} />
           </Slide>
         ))}
       </SlideShow>
