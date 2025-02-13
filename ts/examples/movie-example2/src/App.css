@@ -1,0 +1,69 @@
+#root {
+  text-align: center;
+  background-color: #161127;
+  width: 100svw;
+  height: 100svh;
+  max-height: 100svh;
+}
+
+body {
+  max-width: 1280px;
+  max-height: 100svh;
+  background-color: #161127;
+}
+
+nav {
+  display: flex;
+  height: 5rem;
+  align-items: center;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.mainWrapper {
+  width: 100svw;
+  max-height: 100svh;
+}
+
+button {
+  width: 10rem;
+  border-radius: 1;
+  background-color: red;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.buttonWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  background-color: red;
+}
+
+.streamWrapper {
+  padding: 2rem 4rem 0 4rem;
+  display: flex;
+}
+
+.card {
+  display: flex;
+}
