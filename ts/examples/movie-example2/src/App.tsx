@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef } from 'react';
 import './App.css';
 import Navbar from './components/Navbar.tsx';
 import CompositorCanvas from './components/SmelterCanvas.tsx';
@@ -6,25 +6,37 @@ import Stream from './examples/Stream.tsx';
 import { setWasmBundleUrl } from '@swmansion/smelter-web-wasm';
 import NotoSansFont from '../assets/NotoSans.ttf';
 import type { Smelter } from '@swmansion/smelter-web-wasm';
+import { useStore } from 'zustand';
+import { store } from './store.ts';
+import CommercialMp4 from '../assets/appjs.mp4';
 
 setWasmBundleUrl('/assets/smelter.wasm');
 
 function App() {
-  const [smelter, setSmelter] = useState<Smelter>();
+  const toggleCommercial = useStore(store, state => state.toggleCommercial);
+
+  const smelterRef = useRef<Smelter>();
 
   const onCanvasCreate = useCallback(async (smelter: Smelter) => {
-    setSmelter(smelter);
+    smelterRef.current = smelter;
     await smelter.registerFont(NotoSansFont);
     try {
       await smelter.registerInput('camera', { type: 'camera' });
-      // await smelter.registerInput('screen', { type: 'screen_capture' });
+      await smelterRef.current?.registerInput('commercial', {
+        type: 'mp4',
+        url: new URL(CommercialMp4, import.meta.url).toString(),
+      });
     } catch (err: any) {
       console.warn('Failed to register input', err);
     }
   }, []);
 
   const shareScreen = async () => {
-    await smelter?.registerInput('screen', { type: 'screen_capture' });
+    await smelterRef.current?.registerInput('screen', { type: 'screen_capture' });
+  };
+
+  const runCommercial = async () => {
+    toggleCommercial();
   };
 
   return (
@@ -39,7 +51,7 @@ function App() {
             <button onClick={shareScreen}>Share screen</button>
           </div>
           <div>
-            <button>Break time</button>
+            <button onClick={runCommercial}>Break time</button>
           </div>
         </div>
       </div>

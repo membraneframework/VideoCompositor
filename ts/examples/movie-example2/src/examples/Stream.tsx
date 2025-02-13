@@ -1,12 +1,35 @@
-import { InputStream, Rescaler, View } from '@swmansion/smelter';
+import { InputStream, Rescaler, useInputStreams, View } from '@swmansion/smelter';
+import { useStore } from 'zustand';
+import { store } from '../store';
+import Commercial from './Commercial';
 
 function Stream() {
+  const showCommercial = useStore(store, state => state.showCommercial);
+
+  const inputs = useInputStreams();
+  const hasScreenCapture = !!inputs['screen'];
+  const cameraPosition = hasScreenCapture
+    ? {
+        top: 16,
+        left: 16,
+        width: 256,
+        height: 180,
+      }
+    : {
+        top: 0,
+        left: 0,
+        width: 1026,
+        height: 578,
+      };
+
+  if (showCommercial) {
+    return <Commercial />;
+  }
+
   return (
     <View style={{ backgroundColor: '#161127' }}>
       <Rescaler
         style={{
-          width: 1024,
-          height: 576,
           borderRadius: 24,
           borderColor: 'white',
           borderWidth: 1,
@@ -14,11 +37,9 @@ function Stream() {
         <InputStream inputId="screen" />
       </Rescaler>
       <Rescaler
+        transition={{ durationMs: 1000 }}
         style={{
-          top: 16,
-          left: 16,
-          width: 256,
-          height: 180,
+          ...cameraPosition,
           rescaleMode: 'fill',
           borderRadius: 24,
         }}>
@@ -27,5 +48,4 @@ function Stream() {
     </View>
   );
 }
-
 export default Stream;
