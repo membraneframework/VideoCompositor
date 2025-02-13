@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import './App.css';
 import Navbar from './components/Navbar.tsx';
 import CompositorCanvas from './components/SmelterCanvas.tsx';
@@ -10,7 +10,10 @@ import type { Smelter } from '@swmansion/smelter-web-wasm';
 setWasmBundleUrl('/assets/smelter.wasm');
 
 function App() {
+  const [smelter, setSmelter] = useState<Smelter>();
+
   const onCanvasCreate = useCallback(async (smelter: Smelter) => {
+    setSmelter(smelter);
     await smelter.registerFont(NotoSansFont);
     try {
       await smelter.registerInput('camera', { type: 'camera' });
@@ -19,6 +22,10 @@ function App() {
       console.warn('Failed to register input', err);
     }
   }, []);
+
+  const shareScreen = async () => {
+    await smelter?.registerInput('screen', { type: 'screen_capture' });
+  };
 
   return (
     <div className="mainWrapper">
@@ -29,7 +36,7 @@ function App() {
         </CompositorCanvas>
         <div className="buttonWrapper">
           <div>
-            <button>Share screen</button>
+            <button onClick={shareScreen}>Share screen</button>
           </div>
           <div>
             <button>Break time</button>
