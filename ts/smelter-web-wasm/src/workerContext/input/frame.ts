@@ -68,7 +68,10 @@ export class InputVideoFrameRef {
     return this.downloadedFrame;
   }
 
-  private async downloadFrame(inputFrame: InputVideoFrame, format: VideoPixelFormat): Promise<Frame> {
+  private async downloadFrame(
+    inputFrame: InputVideoFrame,
+    format: VideoPixelFormat
+  ): Promise<Frame> {
     const frame = inputFrame.frame;
 
     // visibleRect is undefined when inputFrame is detached
