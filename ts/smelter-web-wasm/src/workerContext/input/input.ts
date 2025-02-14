@@ -63,6 +63,11 @@ export async function createInput(
   } else if (request.type === 'stream') {
     assert(request.videoStream);
     return new MediaStreamInput(inputId, request.videoStream, inputLogger);
+  } else if (request.type === 'track') {
+    assert(request.videoTrack);
+    // @ts-ignore
+    const videoTrackProcessor = new MediaStreamTrackProcessor({ track: request.videoTrack });
+    return new MediaStreamInput(inputId, videoTrackProcessor.readable, inputLogger);
   }
   throw new Error(`Unknown input type ${(request as any).type}`);
 }

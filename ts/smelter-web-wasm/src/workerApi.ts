@@ -4,15 +4,19 @@ import type { Framerate } from './compositor/compositor';
 
 export type RegisterInput =
   | {
-      type: 'mp4';
-      url: string;
-    }
+    type: 'mp4';
+    url: string;
+  }
   | {
-      type: 'stream';
-      videoStream?: ReadableStream;
-      // For now audio stream is handled on a main context
-      // audioStream?: ReadableStream;
-    };
+    type: 'stream';
+    videoStream?: ReadableStream;
+    // For now audio stream is handled on a main context
+    // audioStream?: ReadableStream;
+  }
+  | {
+    type: 'track';
+    videoTrack?: MediaStreamTrack;
+  };
 
 export type RegisterOutput = {
   type: 'stream';
@@ -32,47 +36,47 @@ export type InitOptions = {
 export type WorkerMessage =
   | ({ type: 'init' } & InitOptions)
   | {
-      type: 'start';
-    }
+    type: 'start';
+  }
   | {
-      type: 'registerInput';
-      inputId: string;
-      input: RegisterInput;
-    }
+    type: 'registerInput';
+    inputId: string;
+    input: RegisterInput;
+  }
   | {
-      type: 'unregisterInput';
-      inputId: string;
-    }
+    type: 'unregisterInput';
+    inputId: string;
+  }
   | {
-      type: 'registerOutput';
-      outputId: string;
-      output: RegisterOutput;
-    }
+    type: 'registerOutput';
+    outputId: string;
+    output: RegisterOutput;
+  }
   | {
-      type: 'updateScene';
-      outputId: string;
-      output: Api.UpdateOutputRequest;
-    }
+    type: 'updateScene';
+    outputId: string;
+    output: Api.UpdateOutputRequest;
+  }
   | {
-      type: 'unregisterOutput';
-      outputId: string;
-    }
+    type: 'unregisterOutput';
+    outputId: string;
+  }
   | {
-      type: 'registerImage';
-      imageId: string;
-      image: ImageSpec;
-    }
+    type: 'registerImage';
+    imageId: string;
+    image: ImageSpec;
+  }
   | {
-      type: 'unregisterImage';
-      imageId: string;
-    }
+    type: 'unregisterImage';
+    imageId: string;
+  }
   | {
-      type: 'registerFont';
-      url: string;
-    }
+    type: 'registerFont';
+    url: string;
+  }
   | {
-      type: 'terminate';
-    };
+    type: 'terminate';
+  };
 
 export type WorkerResponse = void | {
   type: 'registerInput';
@@ -81,16 +85,16 @@ export type WorkerResponse = void | {
 
 export type WorkerEvent =
   | {
-      type:
-        | _smelterInternals.SmelterEventType.AUDIO_INPUT_DELIVERED
-        | _smelterInternals.SmelterEventType.VIDEO_INPUT_DELIVERED
-        | _smelterInternals.SmelterEventType.AUDIO_INPUT_PLAYING
-        | _smelterInternals.SmelterEventType.VIDEO_INPUT_PLAYING
-        | _smelterInternals.SmelterEventType.AUDIO_INPUT_EOS
-        | _smelterInternals.SmelterEventType.VIDEO_INPUT_EOS;
-      inputId: string;
-    }
+    type:
+    | _smelterInternals.SmelterEventType.AUDIO_INPUT_DELIVERED
+    | _smelterInternals.SmelterEventType.VIDEO_INPUT_DELIVERED
+    | _smelterInternals.SmelterEventType.AUDIO_INPUT_PLAYING
+    | _smelterInternals.SmelterEventType.VIDEO_INPUT_PLAYING
+    | _smelterInternals.SmelterEventType.AUDIO_INPUT_EOS
+    | _smelterInternals.SmelterEventType.VIDEO_INPUT_EOS;
+    inputId: string;
+  }
   | {
-      type: _smelterInternals.SmelterEventType.OUTPUT_DONE;
-      outputId: string;
-    };
+    type: _smelterInternals.SmelterEventType.OUTPUT_DONE;
+    outputId: string;
+  };

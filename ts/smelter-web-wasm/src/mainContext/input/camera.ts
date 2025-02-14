@@ -23,6 +23,16 @@ export async function handleRegisterCameraInput(inputId: string): Promise<Regist
     },
     video: true,
   });
+
+  const isSafari = !!(window as any).safari;
+  if (isSafari) {
+    return await handleSafariRegisterCameraInput(inputId, mediaStream);
+  } else {
+    return await handleChromeRegisterCameraInput(inputId, mediaStream);
+  }
+}
+
+async function handleChromeRegisterCameraInput(inputId: string, mediaStream: MediaStream): Promise<RegisterInputResult> {
   const videoTrack = mediaStream.getVideoTracks()[0];
   const transferable = [];
 
@@ -43,6 +53,30 @@ export async function handleRegisterCameraInput(inputId: string): Promise<Regist
         input: {
           type: 'stream',
           videoStream: videoTrackProcessor.readable,
+        },
+      },
+      transferable,
+    ],
+  };
+}
+
+async function handleSafariRegisterCameraInput(inputId: string, mediaStream: MediaStream): Promise<RegisterInputResult> {
+  const videoTrack = mediaStream.getVideoTracks()[0];
+  const transferable = [];
+
+  if (videoTrack) {
+    transferable.push(videoTrack);
+  }
+
+  return {
+    input: new CameraInput(mediaStream),
+    workerMessage: [
+      {
+        type: 'registerInput',
+        inputId,
+        input: {
+          type: 'track',
+          videoTrack: videoTrack,
         },
       },
       transferable,
