@@ -26,6 +26,16 @@ export async function handleRegisterScreenCaptureInput(
       height: { max: 2048 },
     },
   });
+
+  const isSafari = !!(window as any).safari;
+  if (isSafari) {
+    return await registerOnSafari(inputId, mediaStream);
+  } else {
+    return await registerOnChrome(inputId, mediaStream);
+  }
+}
+
+async function registerOnChrome(inputId: string, mediaStream: MediaStream): Promise<RegisterInputResult> {
   const videoTrack = mediaStream.getVideoTracks()[0];
   const transferable = [];
 
@@ -49,6 +59,24 @@ export async function handleRegisterScreenCaptureInput(
         },
       },
       transferable,
+    ],
+  };
+}
+
+async function registerOnSafari(inputId: string, mediaStream: MediaStream): Promise<RegisterInputResult> {
+  const videoTrack = mediaStream.getVideoTracks()[0];
+  return {
+    input: new ScreenCaptureInput(mediaStream),
+    workerMessage: [
+      {
+        type: 'registerInput',
+        inputId,
+        input: {
+          type: 'track',
+          videoTrack: videoTrack,
+        },
+      },
+      [videoTrack],
     ],
   };
 }
