@@ -59,7 +59,11 @@ export class InputVideoFrameRef {
     assert(this.refCount > 0);
 
     if (!this.downloadedFrame) {
-      this.downloadedFrame = await this.downloadFrame(this.frame);
+      try {
+        this.downloadedFrame = await this.downloadFrame(this.frame, true);
+      } catch {
+        this.downloadedFrame = await this.downloadFrame(this.frame, false);
+      }
     }
     return this.downloadedFrame;
   }
@@ -98,7 +102,7 @@ export class InputVideoFrameRef {
             stride: frame.visibleRect.width / 2,
           },
           {
-            offset: frame.visibleRect.width * frame.visibleRect.height * 1.5,
+            offset: frame.visibleRect.width * frame.visibleRect.height * 1.25,
             stride: frame.visibleRect.width / 2,
           },
         ],
