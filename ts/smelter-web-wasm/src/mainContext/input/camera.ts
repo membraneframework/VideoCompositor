@@ -32,7 +32,10 @@ export async function handleRegisterCameraInput(inputId: string): Promise<Regist
   }
 }
 
-async function handleChromeRegisterCameraInput(inputId: string, mediaStream: MediaStream): Promise<RegisterInputResult> {
+async function handleChromeRegisterCameraInput(
+  inputId: string,
+  mediaStream: MediaStream
+): Promise<RegisterInputResult> {
   const videoTrack = mediaStream.getVideoTracks()[0];
   const transferable = [];
 
@@ -60,7 +63,10 @@ async function handleChromeRegisterCameraInput(inputId: string, mediaStream: Med
   };
 }
 
-async function handleSafariRegisterCameraInput(inputId: string, mediaStream: MediaStream): Promise<RegisterInputResult> {
+async function handleSafariRegisterCameraInput(
+  inputId: string,
+  mediaStream: MediaStream
+): Promise<RegisterInputResult> {
   const videoTrack = mediaStream.getVideoTracks()[0];
   const transferable = [];
 
