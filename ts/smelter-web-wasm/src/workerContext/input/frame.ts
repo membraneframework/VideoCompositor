@@ -60,26 +60,24 @@ export class InputVideoFrameRef {
 
     if (!this.downloadedFrame) {
       try {
-        this.downloadedFrame = await this.downloadFrame(this.frame, true);
+        this.downloadedFrame = await this.downloadFrame(this.frame, 'RGBA');
       } catch {
-        this.downloadedFrame = await this.downloadFrame(this.frame, false);
+        this.downloadedFrame = await this.downloadFrame(this.frame, 'I420');
       }
     }
     return this.downloadedFrame;
   }
 
-  private async downloadFrame(inputFrame: InputVideoFrame, isRgba: boolean): Promise<Frame> {
-    // TODO: Add support back from safari
-    // Safari does not support conversion to RGBA
-    // Chrome does not support conversion to YUV
-
+  private async downloadFrame(inputFrame: InputVideoFrame, format: VideoPixelFormat): Promise<Frame> {
     const frame = inputFrame.frame;
 
     // visibleRect is undefined when inputFrame is detached
     assert(frame.visibleRect);
 
+    // Safari does not support conversion to RGBA
+    // Chrome does not support conversion to YUV
     let options: VideoFrameCopyToOptions = {};
-    if (isRgba) {
+    if (format === 'RGBA') {
       options = {
         format: 'RGBA',
         layout: [
@@ -89,7 +87,7 @@ export class InputVideoFrameRef {
           },
         ],
       };
-    } else {
+    } else if (format === 'I420') {
       options = {
         format: 'I420',
         layout: [
@@ -107,6 +105,8 @@ export class InputVideoFrameRef {
           },
         ],
       };
+    } else {
+      throw new Error('Unsupported video format');
     }
 
     const buffer = new Uint8ClampedArray(frame.allocationSize(options as VideoFrameCopyToOptions));
