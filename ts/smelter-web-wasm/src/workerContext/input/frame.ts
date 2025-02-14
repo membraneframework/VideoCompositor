@@ -64,7 +64,7 @@ export class InputVideoFrameRef {
     return this.downloadedFrame;
   }
 
-  private async downloadFrame(inputFrame: InputVideoFrame): Promise<Frame> {
+  private async downloadFrame(inputFrame: InputVideoFrame, isRgba: boolean): Promise<Frame> {
     // TODO: Add support back from safari
     // Safari does not support conversion to RGBA
     // Chrome does not support conversion to YUV
@@ -74,19 +74,41 @@ export class InputVideoFrameRef {
     // visibleRect is undefined when inputFrame is detached
     assert(frame.visibleRect);
 
-    const options = {
-      format: 'RGBA',
-      layout: [
-        {
-          offset: 0,
-          stride: frame.visibleRect.width * 4,
-        },
-      ],
-    };
+    let options: VideoFrameCopyToOptions = {};
+    if (isRgba) {
+      options = {
+        format: 'RGBA',
+        layout: [
+          {
+            offset: 0,
+            stride: frame.visibleRect.width * 4,
+          },
+        ],
+      };
+    } else {
+      options = {
+        format: 'I420',
+        layout: [
+          {
+            offset: 0,
+            stride: frame.visibleRect.width,
+          },
+          {
+            offset: frame.visibleRect.width * frame.visibleRect.height,
+            stride: frame.visibleRect.width / 2,
+          },
+          {
+            offset: frame.visibleRect.width * frame.visibleRect.height * 1.5,
+            stride: frame.visibleRect.width / 2,
+          },
+        ],
+      };
+    }
 
     const buffer = new Uint8ClampedArray(frame.allocationSize(options as VideoFrameCopyToOptions));
     const planeLayouts = await frame.copyTo(buffer, options as VideoFrameCopyToOptions);
 
+    assert(options.layout);
     if (!checkPlaneLayouts(options.layout, planeLayouts)) {
       this.logger.error("Copied frame's plane layouts do not match expected layouts", {
         expected: options.layout,
@@ -99,7 +121,7 @@ export class InputVideoFrameRef {
         width: frame.visibleRect.width,
         height: frame.visibleRect.height,
       },
-      format: FrameFormat.RGBA_BYTES,
+      format: options.format === 'RGBA' ? FrameFormat.RGBA_BYTES : FrameFormat.YUV_BYTES,
       data: buffer,
     };
   }
