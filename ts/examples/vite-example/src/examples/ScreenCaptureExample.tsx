@@ -1,21 +1,29 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import type { Smelter } from '@swmansion/smelter-web-wasm';
 import { InputStream, Rescaler, Text, View } from '@swmansion/smelter';
 import CompositorCanvas from '../components/SmelterCanvas';
 import NotoSansFont from '../../assets/NotoSans.ttf';
 
 function ScreenCaptureExample() {
+  const btnRef = useRef<HTMLButtonElement>(null);
   const onCanvasCreate = useCallback(async (smelter: Smelter) => {
     await smelter.registerFont(NotoSansFont);
-    try {
-      await smelter.registerInput('screen', { type: 'screen_capture' });
-    } catch (err: any) {
-      console.warn('Failed to register screen capture input', err);
+    if (!btnRef.current) {
+      return
     }
+    // TODO(noituri): This is hacky  workaround for safari
+    btnRef.current.onclick = async () => {
+      try {
+        await smelter.registerInput('screen', { type: 'screen_capture' });
+      } catch (err: any) {
+        console.warn('Failed to register screen capture input', err);
+      }
+    };
   }, []);
 
   return (
     <div className="card">
+      <button ref={btnRef}>Share</button>
       <CompositorCanvas onCanvasCreate={onCanvasCreate} width={1280} height={720}>
         <Scene />
       </CompositorCanvas>
